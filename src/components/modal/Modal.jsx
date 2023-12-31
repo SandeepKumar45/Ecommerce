@@ -1,7 +1,7 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function Modal({ name, address, pincode, phoneNumber, setName, setAddress, setPincode, setPhoneNumber, buyNow }) {
+export default function Modal({ name, address, pincode, phoneNumber, setName, setAddress, setPincode, setPhoneNumber, buyNow, totalAmout }) {
     let [isOpen, setIsOpen] = useState(false)
 
     function closeModal() {
@@ -14,10 +14,11 @@ export default function Modal({ name, address, pincode, phoneNumber, setName, se
 
     return (
         <>
-            <div className="  text-center rounded-lg text-white font-bold">
+            <div className="  text-center rounded-lg text-white font-bold ">
                 <button
                     type="button"
                     onClick={openModal}
+                    disabled={totalAmout==0}
                     className="w-full  bg-violet-600 py-2 text-center rounded-lg text-white font-bold "
                 >
                     Buy Now

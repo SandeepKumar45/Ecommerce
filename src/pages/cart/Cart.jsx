@@ -3,7 +3,7 @@ import myContext from '../../context/data/myContext';
 import Layout from '../../components/layout/Layout';
 import Modal from '../../components/modal/Modal';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFromCart } from '../../redux/cartSlice';
+import { deleteFromCart, setCart } from '../../redux/cartSlice';
 import { toast } from 'react-toastify';
 import { addDoc, collection } from 'firebase/firestore';
 import { fireDB } from '../../fireabase/FirebaseConfig';
@@ -37,7 +37,19 @@ function Cart() {
     window.scrollTo(0, 0)
   }, [])
 
-  const shipping = totalAmout <= 300 ? parseInt(100) : parseInt(0);
+  let shipping = 0;
+  //  totalAmout <= 300 ? parseInt(100) : parseInt(0);
+  if (totalAmout==0) {
+    shipping = 0;
+  }
+  else if (totalAmout>0) {
+    if (totalAmout<=300) {
+      shipping = 100
+    }
+    else{
+      shipping = 0
+    }
+  }
 
   const grandTotal = shipping + totalAmout;
   // console.log(grandTotal)
@@ -127,8 +139,7 @@ function Cart() {
 
     var pay = new window.Razorpay(options);
     pay.open();
-    console.log(pay)
-
+    dispatch(setCart([]))
 
   }
   return (
@@ -189,6 +200,7 @@ function Cart() {
               setPincode={setPincode}
               setPhoneNumber={setPhoneNumber}
               buyNow={buyNow}
+              totalAmout={grandTotal}
             />
           </div>
         </div>
